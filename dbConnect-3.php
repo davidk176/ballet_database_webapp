@@ -1,8 +1,8 @@
 <?php
 
-$username = 'elizas02_332user';
-$password = 'Under1starr*';
-$database = 'elizas02_csci332';
+$username = 'root';
+$password = 'root*';
+$database = 'ballett';
 
 $mysqli = new mysqli('127.0.0.1', $username, $password, $database);
 
