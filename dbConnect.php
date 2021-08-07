@@ -1,7 +1,7 @@
 <?php
 
 $username = 'root';
-$password = 'root*';
+$password = 'root';
 $database = 'ballett';
 
 $mysqli = new mysqli('127.0.0.1', $username, $password, $database);
