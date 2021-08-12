@@ -62,9 +62,10 @@
                 echo "<ul>";
 
                 foreach ($rows as $row) {
-                    $id = $row->performanceName;
+                    $name= $row->performanceName;
+                    $id= $row->_id;
                     echo '</br><li style="font-weight: 450; display:inline-block;">' . $row->performanceName;
-                    echo " <a href='performanceDelete.php?id=" . $id . "'><i class='fa fa-trash'></i></a> " . " <a href='performanceEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
+                    echo " <a href='performanceDelete.php?name=" . $name . "'><i class='fa fa-trash'></i></a> " . " <a href='performanceEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
                     echo '</li><li class="right" style="font-weight: 300;">' . $row->performanceDate . '</li>';
                 }
                 echo "</ul>";

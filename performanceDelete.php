@@ -1,14 +1,8 @@
 <?php
-require 'dbConnect.php';
+require 'mongoDbConnect.php';
 
-$sql = "DELETE FROM performance WHERE performanceName = '" . $_REQUEST["id"] . "'";
-
-if (!$result = $mysqli->query($sql)) {
-    echo "Error: Query error, here is why: </br>";
-    echo "Errno: " . $mysqli->errno . "</br>";
-    echo "Error: " . $mysqli->error . "</br>";
-    exit;
-}
+$bulk->delete(['performanceName' => $_REQUEST["name"]]);
+$result = $manager->executeBulkWrite('ballett.performance', $bulk);
 
 ?>
 
