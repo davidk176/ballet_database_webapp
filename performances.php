@@ -53,22 +53,53 @@
                 <h4 style="font-weight: 300; display:inline-block;">Performances</h4>
                 <a class="right btn-floating btn-medium waves-effect waves-light grey" href="performanceAddHtm.php"><i
                             class="fa fa-plus"></i></a>
+
+                <div id="container">
+                    <div class="row">
+                        <div class="col s5 offset-s1">
+
+                            <form action="performances.php" method="post">
+                                <p>
+                                    <label for="performanceName">Performance Name:</label>
+                                    <input type="text" name="performanceName" id="performanceName">
+                                </p>
+                                <button class="btn waves-effect waves-light red lighten-2" type="submit" value="submit"
+                                        name="action">Search
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <?php
                 require 'mongoDbConnect.php';
 
-                $rows = $manager->executeQuery("ballett.performance", $query);
+                if (array_key_exists("performanceName", $_REQUEST)) {
+                    $query = new MongoDB\Driver\Query(["performanceName" => $_REQUEST["performanceName"]]);
+                    $rows = $manager->executeQuery("ballett.performance", $query);
+                    foreach ($rows as $row) {
+                        $name = $row->performanceName;
+                        $id = $row->_id;
+                        echo '</br><li style="font-weight: 450; display:inline-block;">' . $row->performanceName;
+                        echo " <a href='performanceDelete.php?name=" . $name . "'><i class='fa fa-trash'></i></a> " . " <a href='performanceEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
+                        echo '</li><li class="right" style="font-weight: 300;">' . $row->performanceDate . '</li>';
+                    }
+                    echo "</ul>";
+                } else {
 
-                //print performances
-                echo "<ul>";
+                    $rows = $manager->executeQuery("ballett.performance", $query);
 
-                foreach ($rows as $row) {
-                    $name= $row->performanceName;
-                    $id= $row->_id;
-                    echo '</br><li style="font-weight: 450; display:inline-block;">' . $row->performanceName;
-                    echo " <a href='performanceDelete.php?name=" . $name . "'><i class='fa fa-trash'></i></a> " . " <a href='performanceEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
-                    echo '</li><li class="right" style="font-weight: 300;">' . $row->performanceDate . '</li>';
+                    //print performances
+                    echo "<ul>";
+
+                    foreach ($rows as $row) {
+                        $name = $row->performanceName;
+                        $id = $row->_id;
+                        echo '</br><li style="font-weight: 450; display:inline-block;">' . $row->performanceName;
+                        echo " <a href='performanceDelete.php?name=" . $name . "'><i class='fa fa-trash'></i></a> " . " <a href='performanceEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
+                        echo '</li><li class="right" style="font-weight: 300;">' . $row->performanceDate . '</li>';
+                    }
+                    echo "</ul>";
                 }
-                echo "</ul>";
                 ?>
             </div>
         </div>
