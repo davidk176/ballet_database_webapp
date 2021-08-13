@@ -79,7 +79,7 @@
                                     FROM season
                                     WHERE seasonName = '" . $_REQUEST["seasonName"] . "'";
 
-                    $result = $mysqli->query($sql);
+                    $result = $mysqli->query($sql) or die($mysqli->error);
                     $result->data_seek(0);
 
                     //print seasons and performances
