@@ -150,7 +150,7 @@ if (isset($_SESSION['login']) and $_SESSION['login'] == 1) {
                                     <input type="text" name="password" id="password">
                                 </p>
                                 <button class="btn waves-effect waves-light red lighten-2" type="submit" value="submit"
-                                        name="action">Search
+                                        name="action">Login
                                 </button>
                             </form>
                         </div> 
