@@ -41,12 +41,40 @@
                 <li><a href="dancers.php">Dancers</a></li>
                 <li class="right"><a href="database.html">Database</a></li>
                 <li class="right"><a href="program.php">Program</a></li>
+                <li class="right"><a href="logout.php">Logout</a></li>
             </ul>
         </div>
     </nav>
 </div>
 
-<main>
+
+<?php
+session_start();
+require 'dbConnect.php';
+
+if (isset($_POST['username']) and $_POST['username'] != ""
+    and isset($_POST['password']) and $_POST['password'] != "") {
+    $username = $_REQUEST["username"];
+    $password = $_REQUEST["password"];
+    $sql = "SELECT *
+                                    FROM users 
+                                    WHERE userName = '$username' AND password = '$password'";
+
+    $result = $mysqli->query($sql) or die($mysqli->error);
+    $result->data_seek(0);
+    $anz = mysqli_num_rows($result);
+
+    if ($anz > 0) {
+        $_SESSION["login"] = 1;
+    } else {
+        $_SESSION["login"] = 0;
+    }
+
+}
+
+if (isset($_SESSION['login']) and $_SESSION['login'] == 1) {
+
+    echo '<main>
     <div id="container">
         <div class="row">
             <div class="col s5 offset-s1">
@@ -68,57 +96,72 @@
                             </form>
                         </div>
                     </div>
-                </div>
-
-                <?php
-                require 'dbConnect.php';
-
-                if (array_key_exists("seasonName", $_REQUEST)) {
-                    $sql = $_REQUEST["seasonName"];
-                    $sql = "SELECT *
+                </div>';
+    if (array_key_exists("seasonName", $_REQUEST)) {
+        $sql = "SELECT *
                                     FROM season
                                     WHERE seasonName = '" . $_REQUEST["seasonName"] . "'";
 
-                    $result = $mysqli->query($sql) or die($mysqli->error);
-                    $result->data_seek(0);
+        $result = $mysqli->query($sql) or die($mysqli->error);
+        $result->data_seek(0);
 
-                    //print seasons and performances
-                    echo "<ul>";
+        //print seasons and performances
+        echo "<ul>";
 
-                    while ($season = $result->fetch_assoc()) {
-                        $id = $season["seasonName"];
-                        echo '</br><li style="font-weight: 450; display:inline-block;">' . $season["seasonName"];
-                        echo " <a href='seasonDelete.php?id=" . $id . "'><i class='fa fa-trash'></i></a> " .
-                            " <a href='seasonEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
-                        echo '</li><li class="right" style="font-weight: 300;">' . $season["beginDate"] . ' - ' . $season["endDate"] . '</li>';
-                    }
-                    echo "</ul>";
+        while ($season = $result->fetch_assoc()) {
+            $id = $season["seasonName"];
+            echo '</br><li style="font-weight: 450; display:inline-block;">' . $season["seasonName"];
+            echo " <a href='seasonDelete.php?id=" . $id . "'><i class='fa fa-trash'></i></a> " .
+                " <a href='seasonEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
+            echo '</li><li class="right" style="font-weight: 300;">' . $season["beginDate"] . ' - ' . $season["endDate"] . '</li>';
+        }
+        echo "</ul>";
 
-                } else {
+    } else {
 
-                    $sql = "SELECT *
+        $sql = "SELECT *
                     FROM season";
-                    $result = $mysqli->query($sql);
-                    $result->data_seek(0);
+        $result = $mysqli->query($sql);
+        $result->data_seek(0);
 
-                    //print seasons and performances
-                    echo "<ul>";
+        //print seasons and performances
+        echo "<ul>";
 
-                    while ($season = $result->fetch_assoc()) {
-                        $id = $season["seasonName"];
-                        echo '</br><li style="font-weight: 450; display:inline-block;">' . $season["seasonName"];
-                        echo " <a href='seasonDelete.php?id=" . $id . "'><i class='fa fa-trash'></i></a> " .
-                            " <a href='seasonEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
-                        echo '</li><li class="right" style="font-weight: 300;">' . $season["beginDate"] . ' - ' . $season["endDate"] . '</li>';
-                    }
-                    echo "</ul>";
+        while ($season = $result->fetch_assoc()) {
+            $id = $season["seasonName"];
+            echo '</br><li style="font-weight: 450; display:inline-block;">' . $season["seasonName"];
+            echo " <a href='seasonDelete.php?id=" . $id . "'><i class='fa fa-trash'></i></a> " .
+                " <a href='seasonEdit.php?id=" . $id . "'><i class='fa fa-pencil'></i></a>";
+            echo '</li><li class="right" style="font-weight: 300;">' . $season["beginDate"] . ' - ' . $season["endDate"] . '</li>';
+        }
+        echo "</ul>";
 
-                }
+    }
+} else {
 
-                ?>
-            </div>
-        </div>
-    </div>
+    echo '<div id="container">
+                    <div class="row">
+                        <div class="col s5 offset-s1">
+                            <form action="index.php" method="post">
+                                <p>
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" id="username">
+                                    <label for="password">Password</label>
+                                    <input type="text" name="password" id="password">
+                                </p>
+                                <button class="btn waves-effect waves-light red lighten-2" type="submit" value="submit"
+                                        name="action">Search
+                                </button>
+                            </form>
+                        </div> 
+                        </div>
+                        </div>';
+}
+
+?>
+</div>
+</div>
+</div>
 </main>
 </body>
 </html>
