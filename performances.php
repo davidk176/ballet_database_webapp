@@ -71,6 +71,7 @@
                     </div>
                 </div>
                 <?php
+                require 'checklogin.php';
                 require 'mongoDbConnect.php';
 
                 if (array_key_exists("performanceName", $_REQUEST)) {

@@ -40,7 +40,7 @@
                 <li><a href="roles.php">Roles</a></li>
                 <li><a href="dancers.php">Dancers</a></li>
                 <li class="right"><a href="logout.php">Logout</a></li>
-                <li class="right"><a href="database.html">Database</a></li>
+                <li class="right"><a href="database.php">Database</a></li>
                 <li class="right"><a href="program.php">Program</a></li>
             </ul>
         </div>
