@@ -57,8 +57,10 @@ if (isset($_POST['username']) and $_POST['username'] != ""
     $username = $_REQUEST["username"];
     $password = $_REQUEST["password"];
     $sql = "SELECT *
-                                    FROM users 
-                                    WHERE userName = '$username' AND password = '$password'";
+            FROM users 
+            WHERE userName = '" . $mysqli->real_escape_string($username) . "' 
+            AND password = '" . $mysqli->real_escape_string($password) . "'";
+    var_dump($sql);
 
     $result = $mysqli->query($sql) or die($mysqli->error);
     $result->data_seek(0);
@@ -98,11 +100,13 @@ if (isset($_SESSION['login']) and $_SESSION['login'] == 1) {
                     </div>
                 </div>';
     if (array_key_exists("seasonName", $_REQUEST)) {
-        $sql = "SELECT *
+        $stmt = $mysqli->prepare("SELECT *
                                     FROM season
-                                    WHERE seasonName = '" . $_REQUEST["seasonName"] . "'";
-
-        $result = $mysqli->query($sql) or die($mysqli->error);
+                                    WHERE seasonName = ?");
+        $seasonName = $_REQUEST["seasonName"];
+        $stmt->bind_param("s", $seasonName);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $result->data_seek(0);
 
         //print seasons and performances
