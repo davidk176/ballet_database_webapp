@@ -60,7 +60,7 @@ if (isset($_POST['username']) and $_POST['username'] != ""
             FROM users 
             WHERE userName = '" . $mysqli->real_escape_string($username) . "' 
             AND password = '" . $mysqli->real_escape_string($password) . "'";
-    var_dump($sql);
+    //var_dump($sql);
 
     $result = $mysqli->query($sql) or die($mysqli->error);
     $result->data_seek(0);
